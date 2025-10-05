@@ -1,10 +1,12 @@
-import { loadJSON } from "./util.js";
+import { loadJSON, store } from "./util.js";
 import { renderRoute, currentRoute } from "./router.js";
 import { bindAuthButtons, refreshAuthUI, setSession, getSession } from "./auth.js";
 import { renderLoans, renderUserDetail } from "./loans.js";
 import { renderDirectory } from "./directory.js";
+import { CONTENT, renderStaticContent } from "./content.js";
 
 let DATA = { accounts: [], events: [], notices: [], site: {} };
+let searchBlocks = [];
 
 async function bootstrap(){
   // Load data in parallel
@@ -15,13 +17,17 @@ async function bootstrap(){
     loadJSON("data/site.json")
   ]);
   DATA.accounts = users;
-  DATA.events   = events;
+  DATA.events   = [...events].sort((a,b)=> new Date(a.date) - new Date(b.date));
   DATA.notices  = notices;
   DATA.site     = site;
 
   document.getElementById("year").textContent = new Date().getFullYear();
+  document.body.dataset.theme = DATA.site.theme || "dark";
   refreshAuthUI();
   bindAuthButtons();
+
+  renderStaticContent(CONTENT, DATA.events);
+  searchBlocks = Array.from(document.querySelectorAll("section[data-route], section.hero"));
 
   // Basic notices/events render
   const noticesBox = document.getElementById("notices");
@@ -30,18 +36,20 @@ async function bootstrap(){
 
   // Routing
   window.addEventListener("hashchange", onRoute);
-  if(!location.hash) location.hash = "#/home";
-  renderRoute();
-  onRoute();
+  const last = store.get("lastRoute");
+  if(!location.hash || !location.hash.startsWith("#/")){
+    location.hash = "#/" + (last || "home");
+  } else {
+    onRoute();
+  }
 
   // Search shortcut
   const q = document.getElementById("q");
   document.addEventListener("keydown", (e)=>{ if(e.key === "/" && document.activeElement !== q){ e.preventDefault(); q.focus(); }});
   q?.addEventListener("input", ()=>{
     const needle = q.value.trim().toLowerCase();
-    const blocks = [...document.querySelectorAll("section[data-route]"), ...document.querySelectorAll("section.hero")];
-    if(!needle){ blocks.forEach(b=> b.style.outline="none"); return; }
-    blocks.forEach(b=>{
+    if(!needle){ searchBlocks.forEach(b=> b.style.outline="none"); return; }
+    searchBlocks.forEach(b=>{
       const text = b.textContent.toLowerCase();
       b.style.outline = text.includes(needle) ? "2px solid rgba(130,200,255,.45)" : "none";
     });
@@ -57,7 +65,7 @@ async function bootstrap(){
   if(!document.getElementById("loginSheet")){
     const login = document.createElement("template");
     login.innerHTML = `
-      <section data-route="login"><h2>Log in</h2>
+      <section id="loginSheet" data-route="login"><h2>Log in</h2>
         <div class="notice ok"><div class="dot"></div><div>Demo: Users <code>user01..user10</code> and Manager <code>manager</code>. Password: <code>demo123</code>.</div></div>
         <form id="loginForm" class="form">
           <div style="display:flex; gap:8px; margin-bottom:8px">
@@ -71,6 +79,7 @@ async function bootstrap(){
         </form>
       </section>`;
     document.querySelector("main.wrap").appendChild(login.content);
+    searchBlocks = Array.from(document.querySelectorAll("section[data-route], section.hero"));
   }
   // Bind login
   document.getElementById("loginForm")?.addEventListener("submit",(e)=>{
