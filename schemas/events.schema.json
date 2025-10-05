@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": [
+      "date",
+      "title",
+      "where",
+      "note"
+    ],
+    "properties": {
+      "date": {
+        "type": "string",
+        "format": "date"
+      },
+      "title": {
+        "type": "string"
+      },
+      "where": {
+        "type": "string"
+      },
+      "note": {
+        "type": "string"
+      }
+    }
+  }
+}

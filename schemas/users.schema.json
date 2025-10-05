@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": [
+      "username",
+      "password",
+      "role",
+      "profile"
+    ],
+    "properties": {
+      "username": {
+        "type": "string",
+        "pattern": "^[a-z0-9_\\-]+$"
+      },
+      "password": {
+        "type": "string"
+      },
+      "role": {
+        "enum": [
+          "user",
+          "manager"
+        ]
+      },
+      "profile": {
+        "type": "object",
+        "required": [
+          "name",
+          "address",
+          "phone",
+          "email",
+          "branch"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "branch": {
+            "type": "string"
+          }
+        }
+      },
+      "loan": {
+        "anyOf": [
+          {
+            "type": "null"
+          },
+          {
+            "type": "object",
+            "required": [
+              "amount_borrowed",
+              "balance",
+              "interest",
+              "start_date",
+              "last_payment"
+            ],
+            "properties": {
+              "amount_borrowed": {
+                "type": "number"
+              },
+              "balance": {
+                "type": "number"
+              },
+              "interest": {
+                "type": "number"
+              },
+              "start_date": {
+                "type": "string",
+                "format": "date"
+              },
+              "last_payment": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

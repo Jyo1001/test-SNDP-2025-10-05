@@ -1,0 +1,205 @@
+[
+  {
+    "username": "manager",
+    "password": "demo123",
+    "role": "manager",
+    "profile": {
+      "name": "Site Manager",
+      "address": "Unit 9 Office",
+      "phone": "+91-90000-00000",
+      "email": "manager@example.org",
+      "branch": "Unit 9"
+    },
+    "loan": null
+  },
+  {
+    "username": "user01",
+    "password": "demo123",
+    "role": "user",
+    "profile": {
+      "name": "Anil Kumar",
+      "address": "SNDP Unit 9, Example Rd, Kollam",
+      "phone": "+91-98950-10001",
+      "email": "anil@example.org",
+      "branch": "Unit 9"
+    },
+    "loan": {
+      "amount_borrowed": 50000,
+      "balance": 23000,
+      "interest": 10,
+      "start_date": "2025-01-15",
+      "last_payment": "2025-09-20"
+    }
+  },
+  {
+    "username": "user02",
+    "password": "demo123",
+    "role": "user",
+    "profile": {
+      "name": "Lekshmi Das",
+      "address": "Unit 9, Ward 12, Kollam",
+      "phone": "+91-98950-10002",
+      "email": "lekshmi@example.org",
+      "branch": "Unit 9"
+    },
+    "loan": {
+      "amount_borrowed": 30000,
+      "balance": 12000,
+      "interest": 9,
+      "start_date": "2025-03-02",
+      "last_payment": "2025-09-10"
+    }
+  },
+  {
+    "username": "user03",
+    "password": "demo123",
+    "role": "user",
+    "profile": {
+      "name": "Harikrishnan",
+      "address": "Cheruvakkal, Kollam",
+      "phone": "+91-98950-10003",
+      "email": "hari@example.org",
+      "branch": "Unit 9"
+    },
+    "loan": {
+      "amount_borrowed": 45000,
+      "balance": 41000,
+      "interest": 11,
+      "start_date": "2025-06-22",
+      "last_payment": "2025-08-25"
+    }
+  },
+  {
+    "username": "user04",
+    "password": "demo123",
+    "role": "user",
+    "profile": {
+      "name": "Sreedevi Raj",
+      "address": "Kadappakada, Kollam",
+      "phone": "+91-98950-10004",
+      "email": "sreedevi@example.org",
+      "branch": "Unit 9"
+    },
+    "loan": {
+      "amount_borrowed": 20000,
+      "balance": 7000,
+      "interest": 9,
+      "start_date": "2025-02-10",
+      "last_payment": "2025-09-05"
+    }
+  },
+  {
+    "username": "user05",
+    "password": "demo123",
+    "role": "user",
+    "profile": {
+      "name": "Vishnu Prasad",
+      "address": "Eravipuram, Kollam",
+      "phone": "+91-98950-10005",
+      "email": "vishnu@example.org",
+      "branch": "Unit 9"
+    },
+    "loan": {
+      "amount_borrowed": 60000,
+      "balance": 60000,
+      "interest": 12,
+      "start_date": "2025-09-01",
+      "last_payment": "\u2014"
+    }
+  },
+  {
+    "username": "user06",
+    "password": "demo123",
+    "role": "user",
+    "profile": {
+      "name": "Sneha Suresh",
+      "address": "Thrikkadavoor, Kollam",
+      "phone": "+91-98950-10006",
+      "email": "sneha@example.org",
+      "branch": "Unit 9"
+    },
+    "loan": {
+      "amount_borrowed": 25000,
+      "balance": 9000,
+      "interest": 8,
+      "start_date": "2025-04-14",
+      "last_payment": "2025-09-12"
+    }
+  },
+  {
+    "username": "user07",
+    "password": "demo123",
+    "role": "user",
+    "profile": {
+      "name": "Arjun Das",
+      "address": "Chinnakada, Kollam",
+      "phone": "+91-98950-10007",
+      "email": "arjun@example.org",
+      "branch": "Unit 9"
+    },
+    "loan": {
+      "amount_borrowed": 40000,
+      "balance": 15000,
+      "interest": 10,
+      "start_date": "2025-05-20",
+      "last_payment": "2025-09-22"
+    }
+  },
+  {
+    "username": "user08",
+    "password": "demo123",
+    "role": "user",
+    "profile": {
+      "name": "Beena Raj",
+      "address": "Pallimukku, Kollam",
+      "phone": "+91-98950-10008",
+      "email": "beena@example.org",
+      "branch": "Unit 9"
+    },
+    "loan": {
+      "amount_borrowed": 15000,
+      "balance": 3000,
+      "interest": 8,
+      "start_date": "2025-01-05",
+      "last_payment": "2025-08-30"
+    }
+  },
+  {
+    "username": "user09",
+    "password": "demo123",
+    "role": "user",
+    "profile": {
+      "name": "Jithin Kumar",
+      "address": "Kilikollur, Kollam",
+      "phone": "+91-98950-10009",
+      "email": "jithin@example.org",
+      "branch": "Unit 9"
+    },
+    "loan": {
+      "amount_borrowed": 52000,
+      "balance": 38000,
+      "interest": 11,
+      "start_date": "2025-07-07",
+      "last_payment": "2025-09-15"
+    }
+  },
+  {
+    "username": "user10",
+    "password": "demo123",
+    "role": "user",
+    "profile": {
+      "name": "Reshma Rajesh",
+      "address": "Mayyanad, Kollam",
+      "phone": "+91-98950-10010",
+      "email": "reshma@example.org",
+      "branch": "Unit 9"
+    },
+    "loan": {
+      "amount_borrowed": 22000,
+      "balance": 5000,
+      "interest": 9,
+      "start_date": "2025-02-28",
+      "last_payment": "2025-09-18"
+    }
+  }
+]
