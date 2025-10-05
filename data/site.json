@@ -1,5 +1,66 @@
 {
-  "title": "SNDP Unit 9",
-  "motto": "One caste, one religion, one God, for humankind",
-  "theme": "dark"
+  "title": "SNDP Chathenkery",
+  "pageTitle": "SNDP Chathenkery — Community Hub",
+  "motto": "Riverfront sakha powering welfare, pilgrim care, and cooperative growth in Chengannur.",
+  "description": "Interactive portal for SNDP Chathenkery with SNDP Yogam history, programmes, pilgrim services, and member tools.",
+  "theme": "light",
+  "chips": [
+    "On the banks of the Pamba River in Chengannur",
+    "Gateway support point for Sabarimala pilgrims",
+    "Volunteer hours logged weekly by youth and women's wings"
+  ],
+  "stats": [
+    { "label": "Active families", "value": "480+", "note": "Annual membership renewals in Chathenkery ward" },
+    { "label": "Service hours", "value": "3.2k", "note": "Volunteer hours recorded for 2024–25 projects" },
+    { "label": "Study circles", "value": "12", "note": "Weekly social education & scripture pods" },
+    { "label": "Self-help groups", "value": "18", "note": "Women-led thrift and microfinance batches" }
+  ],
+  "highlights": [
+    {
+      "title": "Pamba riverside stewardship",
+      "body": "Community teams monitor the riverbanks connecting Chathenkery and Chengannur, pairing clean-ups with flood-readiness drills.",
+      "link": { "label": "View river watch schedule", "href": "https://maps.app.goo.gl/xxMPhtAVtHdxZfxb6", "external": true }
+    },
+    {
+      "title": "Gateway to Sabarimala care",
+      "body": "Pilgrim transit desks at Chengannur transport hubs extend the town’s role as the “Gateway to Sabarimala” with rest stops, maps, and first-aid.",
+      "link": { "label": "Pilgrim support plan", "href": "#/programs" }
+    },
+    {
+      "title": "Grassroots learning pods",
+      "body": "Youth mentors run evening digital literacy and language pods aligned with SNDP Yogam’s statewide education mission.",
+      "link": { "label": "Join a study circle", "href": "#/chathenkery" }
+    }
+  ],
+  "insights": [
+    {
+      "title": "2024–25 priority tracks",
+      "items": [
+        "Deploy solar lights around the SNDP hall and pilgrim rest centre.",
+        "Map vulnerable riverbank stretches with Chengannur Municipality.",
+        "Launch bilingual mentoring for Class 10 & 12 board exam cohorts."
+      ]
+    },
+    {
+      "title": "Community wellbeing indicators",
+      "items": [
+        "95 scholarship applications processed through the ward help desk.",
+        "40+ seniors receiving monthly wellness visits and mobility aid.",
+        "Six farmer clusters adopting organic manure through co-op ties."
+      ]
+    }
+  ],
+  "referencesIntro": "Curated references grounding our Chathenkery profile and community projects.",
+  "references": [
+    {
+      "label": "Chengannur Tourism static site (GitHub)",
+      "href": "https://github.com/Jaisonemathew/chengannur",
+      "note": "Local landmarks and pilgrim context for the Chathenkery ward."
+    },
+    {
+      "label": "SNDP Yogam official site",
+      "href": "https://www.sndpyogam.org/",
+      "note": "Statewide programmes and institutional network."
+    }
+  ]
 }
