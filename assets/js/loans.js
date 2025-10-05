@@ -55,7 +55,7 @@ export const renderLoans = (ACCOUNTS)=>{
     const list = ACCOUNTS.filter(a=> a.role==="user");
     box.innerHTML = `
       <div style="display:flex; gap:8px; align-items:center; margin-bottom:10px">
-        <input id="flt" placeholder="Filter by name/phone/username" style="flex:1; padding:8px; border-radius:8px; border:1px solid rgba(255,255,255,.18); background:rgba(255,255,255,.06); color:var(--text)">
+        <input id="flt" placeholder="Filter by name/phone/username" style="flex:1; min-width:0">
         <span class="chip">${list.length} users</span>
       </div>
       <div class="table-wrap">

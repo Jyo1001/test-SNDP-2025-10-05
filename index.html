@@ -3,23 +3,27 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SNDP Unit 9 — Site</title>
-  <meta name="description" content="SNDP Unit 9 website — clean, Wikipedia‑inspired design with directory, loans, and user detail pages."/>
+  <title>SNDP Chathenkery — Community Hub</title>
+  <meta name="description" content="SNDP Chathenkery community hub — interactive portal for Chengannur's riverfront ward with SNDP Yogam history, programmes, and member tools."/>
   <link rel="stylesheet" href="assets/css/main.css" />
 </head>
 <body>
   <header class="topbar">
     <a href="#/home" class="brand">
       <div class="logo">SN</div>
-      <span>SNDP Unit 9</span>
+      <span>SNDP Chathenkery</span>
     </a>
-    <nav class="nav">
+    <button id="navToggle" class="menu-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="primaryNav">
+      <span class="menu-icon" aria-hidden="true"></span>
+      <span class="menu-label">Menu</span>
+    </button>
+    <nav id="primaryNav" class="nav">
       <a href="#/home">Home</a>
-      <a href="#/about">About SNDP</a>
+      <a href="#/about">About SNDP Yogam</a>
       <a href="#/guru">Sree Narayana Guru</a>
       <a href="#/history">History</a>
-      <a href="#/unit9">Unit 9</a>
-      <a href="#/programs">Programs</a>
+      <a href="#/chathenkery">Chathenkery Unit</a>
+      <a href="#/programs">Programmes</a>
       <a href="#/directory">Directory</a>
       <a href="#/notices">Notices</a>
       <a href="#/gallery">Gallery</a>
@@ -28,12 +32,16 @@
       <a href="#/references">References</a>
     </nav>
     <div class="tools">
+      <button id="searchToggle" class="btn search-toggle" type="button" aria-expanded="false" aria-controls="q" title="Search pages">
+        <span class="search-icon" aria-hidden="true"></span>
+        <span class="search-text">Search</span>
+      </button>
       <label class="search">
         <input id="q" placeholder="Search pages... ( / )" />
       </label>
       <button id="theme" class="btn" title="Toggle theme">Theme</button>
       <button id="loginBtn" class="btn" title="Log in">Log in</button>
-      <div id="userPanel" style="display:none; gap:8px; align-items:center">
+      <div id="userPanel" style="display:none; gap:8px; align-items:center; flex-wrap:wrap">
         <span id="hello" style="font-weight:700"></span>
         <a class="btn" href="#/loans">Loan Portal</a>
         <button id="logoutBtn" class="btn" title="Log out">Log out</button>
@@ -44,34 +52,36 @@
   <main class="wrap">
     <section class="hero" data-route="home">
       <div class="hero-inner">
-        <div>
-          <h1>Welcome to SNDP Unit 9</h1>
-          <p>Wikipedia‑inspired layout • clean and modern UI • content sourced from public references.</p>
-          <div class="chips">
-            <span class="chip">Founded: 1903</span>
-            <span class="chip">HQ: Kollam, Kerala</span>
-            <span class="chip">Motto: “One caste, one religion, one God, for humankind”</span>
+        <div class="hero-copy">
+          <span class="eyebrow">Community hub</span>
+          <h1>Welcome to SNDP Chathenkery</h1>
+          <p id="siteMotto">Grassroots welfare hub for Chengannur’s Chathenkery ward.</p>
+          <div class="chips" id="homeChips">
+            <span class="chip">On the banks of the Pamba River</span>
+            <span class="chip">Gateway for Sabarimala pilgrims</span>
+            <span class="chip">Volunteer-driven welfare</span>
           </div>
-          <div class="cta" style="margin-top:10px">
-            <a class="btn" href="#/about">Explore About SNDP</a>
-            <a class="btn" href="#/unit9">Jump to Unit 9</a>
+          <div class="cta">
+            <a class="btn" href="#/about">Explore SNDP Yogam</a>
+            <a class="btn btn-alt" href="#/chathenkery">Discover Chathenkery Unit</a>
           </div>
         </div>
-        <div>
+        <div class="hero-spot">
           <div class="kpi" id="homeStats"></div>
-          <div class="notice ok"><div class="dot"></div><div><strong>Demo:</strong> Replace Unit‑9 placeholders with real data.</div></div>
+          <div class="notice ok"><div class="dot"></div><div><strong>Field update:</strong> Latest pilgrim-season services and river watch data are now live in the highlights below.</div></div>
         </div>
       </div>
-      <div id="homeOverview"></div>
+      <div id="homeOverview" class="home-highlights"></div>
+      <div id="homeInsights" class="home-insights"></div>
     </section>
 
     <section data-route="about"><h2>About SNDP</h2><div id="about"></div></section>
     <section data-route="guru"><h2>Sree Narayana Guru</h2><div id="guru"></div></section>
     <section data-route="history"><h2>History</h2><div id="history"></div></section>
-    <section data-route="unit9"><h2>Unit 9</h2><div id="unit9"></div></section>
-    <section data-route="programs"><h2>Programs</h2><div id="programs"></div></section>
+    <section data-route="chathenkery"><h2>SNDP Chathenkery</h2><div id="chathenkery"></div></section>
+    <section data-route="programs"><h2>Programmes</h2><div id="programs"></div></section>
     <section data-route="directory"><h2>Member Directory</h2><div id="directoryIntro"></div><div id="directoryView"></div></section>
-    <section data-route="notices"><h2>Notices & Events</h2><div id="noticesIntro"></div><div id="notices"></div></section>
+    <section data-route="notices"><h2>Notices &amp; Events</h2><div id="noticesIntro"></div><div id="notices"></div></section>
     <section data-route="gallery"><h2>Gallery</h2><div id="galleryIntro"></div><div id="galleryGrid" class="gallery"></div></section>
     <section data-route="faq"><h2>FAQ</h2><div id="faq"></div></section>
     <section data-route="loans"><h2>Loan Portal</h2><div id="loansIntro"></div><div id="loansView"></div></section>
@@ -79,7 +89,7 @@
     <section data-route="references"><h2>References</h2><div id="referencesIntro"></div><ol id="referencesList"></ol></section>
   </main>
 
-  <footer class="footer">© <span id="year"></span> SNDP Unit 9</footer>
+  <footer class="footer">© <span id="year"></span> SNDP Chathenkery</footer>
 
   <script type="module" src="assets/js/app.js"></script>
 </body>
