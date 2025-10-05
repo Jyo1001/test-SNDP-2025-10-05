@@ -93,6 +93,31 @@ async function bootstrap(){
     onRoute();
   }
 
+  // Mobile navigation toggle
+  const navToggle = document.getElementById("navToggle");
+  const nav = document.getElementById("primaryNav");
+  if(navToggle && nav){
+    const setNavState = (open) => {
+      document.body.dataset.navOpen = open ? "true" : "false";
+      navToggle.setAttribute("aria-expanded", open ? "true" : "false");
+      navToggle.classList.toggle("is-open", open);
+      const label = navToggle.querySelector(".menu-label");
+      if(label){
+        label.textContent = open ? "Close" : "Menu";
+      }
+    };
+    navToggle.addEventListener("click", ()=>{
+      const open = document.body.dataset.navOpen === "true";
+      setNavState(!open);
+      if(!open){
+        nav.querySelector("a")?.focus();
+      }
+    });
+    nav.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", ()=> setNavState(false));
+    });
+  }
+
   // Search shortcut
   const q = document.getElementById("q");
   const searchToggle = document.getElementById("searchToggle");
