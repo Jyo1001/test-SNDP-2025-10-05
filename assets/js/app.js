@@ -1,4 +1,4 @@
-import { loadJSON, store } from "./util.js";
+import { loadJSON, store, safe } from "./util.js";
 import { renderRoute, currentRoute } from "./router.js";
 import { bindAuthButtons, refreshAuthUI, setSession, getSession } from "./auth.js";
 import { renderLoans, renderUserDetail } from "./loans.js";
@@ -22,11 +22,17 @@ async function bootstrap(){
   DATA.site     = site;
 
   document.getElementById("year").textContent = new Date().getFullYear();
-  document.body.dataset.theme = DATA.site.theme || "dark";
+  const storedTheme = store.get("theme");
+  const initialTheme = storedTheme || DATA.site.theme || "light";
+  document.body.dataset.theme = initialTheme;
   refreshAuthUI();
   bindAuthButtons();
 
   renderStaticContent(CONTENT, DATA.events);
+  renderHome(DATA.site);
+  renderSectionIntros(DATA.site);
+  renderGallery(DATA.site);
+  renderReferences(DATA.site);
   searchBlocks = Array.from(document.querySelectorAll("section[data-route], section.hero"));
 
   // Basic notices/events render
@@ -57,8 +63,9 @@ async function bootstrap(){
 
   // Theme toggle
   document.getElementById("theme")?.addEventListener("click", ()=>{
-    const dark = document.body.dataset.theme !== "light";
-    document.body.dataset.theme = dark ? "light" : "dark";
+    const next = document.body.dataset.theme === "dark" ? "light" : "dark";
+    document.body.dataset.theme = next;
+    store.set("theme", next);
   });
 
   // Simple login page inside SPA
@@ -94,6 +101,128 @@ async function bootstrap(){
     msg.textContent = "Logged in";
     setTimeout(()=> location.hash = "#/loans", 300);
   });
+}
+
+function renderHome(site = {}){
+  const title = site.title || "SNDP Chathenkery";
+  document.title = site.pageTitle || `${title} — Community Hub`;
+  const metaDesc = document.querySelector('meta[name="description"]');
+  if(metaDesc && site.description){
+    metaDesc.setAttribute("content", site.description);
+  }
+  const brandLabel = document.querySelector(".brand span");
+  if(brandLabel) brandLabel.textContent = title;
+  const heroHeading = document.querySelector(".hero-copy h1");
+  if(heroHeading) heroHeading.textContent = `Welcome to ${title}`;
+  const mottoEl = document.getElementById("siteMotto");
+  if(mottoEl && site.motto){ mottoEl.textContent = site.motto; }
+  const chipsEl = document.getElementById("homeChips");
+  if(chipsEl && Array.isArray(site.chips) && site.chips.length){
+    chipsEl.innerHTML = site.chips.map(text => `<span class="chip">${safe(text)}</span>`).join("");
+  }
+  const statsEl = document.getElementById("homeStats");
+  if(statsEl && Array.isArray(site.stats)){
+    statsEl.innerHTML = site.stats.map((stat) => `
+      <div class="tile">
+        <div class="sub">${safe(stat.label)}</div>
+        <div class="big">${safe(stat.value)}</div>
+        ${stat.note ? `<p>${safe(stat.note)}</p>` : ""}
+      </div>`).join("");
+  }
+  const highlightsEl = document.getElementById("homeOverview");
+  if(highlightsEl){
+    const highlights = Array.isArray(site.highlights) ? site.highlights : [];
+    highlightsEl.innerHTML = highlights.map((item) => `
+      <article class="highlight-card">
+        <h3>${safe(item.title)}</h3>
+        <p>${safe(item.body)}</p>
+        ${item.link ? `<a href="${safe(item.link.href)}"${item.link.external ? " target=\"_blank\" rel=\"noopener\"" : ""}>${safe(item.link.label || "Learn more")}</a>` : ""}
+      </article>`).join("");
+    highlightsEl.style.display = highlights.length ? "grid" : "none";
+  }
+  const insightsEl = document.getElementById("homeInsights");
+  if(insightsEl){
+    const sections = Array.isArray(site.insights) ? site.insights : [];
+    insightsEl.innerHTML = sections.map((section) => `
+      <div class="insight-card">
+        <h3>${safe(section.title)}</h3>
+        <ul>${(section.items || []).map((item) => `<li>${safe(item)}</li>`).join("")}</ul>
+      </div>`).join("");
+    insightsEl.style.display = sections.length ? "grid" : "none";
+  }
+}
+
+function renderSectionIntros(site = {}){
+  const sections = [
+    ["directoryIntro", site.directoryIntro],
+    ["noticesIntro", site.noticesIntro],
+    ["galleryIntro", site.galleryIntro],
+    ["loansIntro", site.loansIntro]
+  ];
+  sections.forEach(([id, config]) => {
+    const target = document.getElementById(id);
+    if(!target) return;
+    if(!config){
+      target.innerHTML = "";
+      target.style.display = "none";
+      return;
+    }
+    const block = typeof config === "string" ? { paragraphs: [config] } : config;
+    const paragraphs = Array.isArray(block.paragraphs) ? block.paragraphs : [];
+    const list = Array.isArray(block.list) ? block.list : [];
+    let html = `<article class="article">`;
+    if(paragraphs.length){
+      html += paragraphs.map(text => `<p>${safe(text)}</p>`).join("");
+    }
+    if(block.note){
+      html += `<p>${safe(block.note)}</p>`;
+    }
+    if(list.length){
+      html += `<ul class="bullet-list">${list.map(item => `<li>${safe(item)}</li>`).join("")}</ul>`;
+    }
+    if(block.cta && block.cta.href){
+      const external = block.cta.external ? ' target="_blank" rel="noopener"' : "";
+      const variant = block.cta.variant === "alt" ? " btn-alt" : "";
+      html += `<a class="btn${variant}" href="${safe(block.cta.href)}"${external}>${safe(block.cta.label || "Learn more")}</a>`;
+    }
+    html += `</article>`;
+    target.innerHTML = html;
+    target.style.display = "";
+  });
+}
+
+function renderGallery(site = {}){
+  const grid = document.getElementById("galleryGrid");
+  if(grid){
+    const items = Array.isArray(site.gallery) ? site.gallery : [];
+    grid.innerHTML = items.map(item => `
+      <article class="gallery-card">
+        ${item.eyebrow ? `<span class="eyebrow">${safe(item.eyebrow)}</span>` : ""}
+        <h3>${safe(item.title)}</h3>
+        ${item.body ? `<p>${safe(item.body)}</p>` : ""}
+        ${item.link ? `<a href="${safe(item.link.href)}"${item.link.external ? ' target=\"_blank\" rel=\"noopener\"' : ""}>${safe(item.link.label || "View details")}</a>` : ""}
+      </article>`).join("");
+    grid.style.display = items.length ? "grid" : "none";
+  }
+}
+
+function renderReferences(site = {}){
+  const list = document.getElementById("referencesList");
+  if(list){
+    const refs = Array.isArray(site.references) ? site.references : [];
+    list.innerHTML = refs.map((ref) => `
+      <li>
+        <a href="${safe(ref.href)}" target="_blank" rel="noopener">${safe(ref.label || ref.href)}</a>
+        ${ref.note ? `<div>${safe(ref.note)}</div>` : ""}
+      </li>`).join("");
+    list.style.display = refs.length ? "block" : "none";
+  }
+  const intro = document.getElementById("referencesIntro");
+  if(intro){
+    intro.innerHTML = site.referencesIntro
+      ? `<article class="article"><p>${safe(site.referencesIntro)}</p></article>`
+      : "";
+  }
 }
 
 function onRoute(){

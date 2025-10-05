@@ -5,10 +5,10 @@
     "role": "manager",
     "profile": {
       "name": "Site Manager",
-      "address": "Unit 9 Office",
+      "address": "SNDP Chathenkery Office, Ward 3, Chengannur",
       "phone": "+91-90000-00000",
       "email": "manager@example.org",
-      "branch": "Unit 9"
+      "branch": "SNDP Chathenkery"
     },
     "loan": null
   },
@@ -18,10 +18,10 @@
     "role": "user",
     "profile": {
       "name": "Anil Kumar",
-      "address": "SNDP Unit 9, Example Rd, Kollam",
+      "address": "Chathenkery Ward 3, Chengannur Municipality",
       "phone": "+91-98950-10001",
       "email": "anil@example.org",
-      "branch": "Unit 9"
+      "branch": "SNDP Chathenkery"
     },
     "loan": {
       "amount_borrowed": 50000,
@@ -37,10 +37,10 @@
     "role": "user",
     "profile": {
       "name": "Lekshmi Das",
-      "address": "Unit 9, Ward 12, Kollam",
+      "address": "Pandavan Para Road, Chathenkery, Chengannur",
       "phone": "+91-98950-10002",
       "email": "lekshmi@example.org",
-      "branch": "Unit 9"
+      "branch": "SNDP Chathenkery"
     },
     "loan": {
       "amount_borrowed": 30000,
@@ -56,10 +56,10 @@
     "role": "user",
     "profile": {
       "name": "Harikrishnan",
-      "address": "Cheruvakkal, Kollam",
+      "address": "Kallissery Ferry Road, Chengannur",
       "phone": "+91-98950-10003",
       "email": "hari@example.org",
-      "branch": "Unit 9"
+      "branch": "SNDP Chathenkery"
     },
     "loan": {
       "amount_borrowed": 45000,
@@ -75,10 +75,10 @@
     "role": "user",
     "profile": {
       "name": "Sreedevi Raj",
-      "address": "Kadappakada, Kollam",
+      "address": "Thittamel, Chathenkery",
       "phone": "+91-98950-10004",
       "email": "sreedevi@example.org",
-      "branch": "Unit 9"
+      "branch": "SNDP Chathenkery"
     },
     "loan": {
       "amount_borrowed": 20000,
@@ -94,10 +94,10 @@
     "role": "user",
     "profile": {
       "name": "Vishnu Prasad",
-      "address": "Eravipuram, Kollam",
+      "address": "Mulakuzha Junction, Chengannur",
       "phone": "+91-98950-10005",
       "email": "vishnu@example.org",
-      "branch": "Unit 9"
+      "branch": "SNDP Chathenkery"
     },
     "loan": {
       "amount_borrowed": 60000,
@@ -113,10 +113,10 @@
     "role": "user",
     "profile": {
       "name": "Sneha Suresh",
-      "address": "Thrikkadavoor, Kollam",
+      "address": "Kurathikad, Chengannur",
       "phone": "+91-98950-10006",
       "email": "sneha@example.org",
-      "branch": "Unit 9"
+      "branch": "SNDP Chathenkery"
     },
     "loan": {
       "amount_borrowed": 25000,
@@ -132,10 +132,10 @@
     "role": "user",
     "profile": {
       "name": "Arjun Das",
-      "address": "Chinnakada, Kollam",
+      "address": "Thiruvalla Road, Chathenkery",
       "phone": "+91-98950-10007",
       "email": "arjun@example.org",
-      "branch": "Unit 9"
+      "branch": "SNDP Chathenkery"
     },
     "loan": {
       "amount_borrowed": 40000,
@@ -151,10 +151,10 @@
     "role": "user",
     "profile": {
       "name": "Beena Raj",
-      "address": "Pallimukku, Kollam",
+      "address": "Puthencavu, Chengannur",
       "phone": "+91-98950-10008",
       "email": "beena@example.org",
-      "branch": "Unit 9"
+      "branch": "SNDP Chathenkery"
     },
     "loan": {
       "amount_borrowed": 15000,
@@ -170,10 +170,10 @@
     "role": "user",
     "profile": {
       "name": "Jithin Kumar",
-      "address": "Kilikollur, Kollam",
+      "address": "Kodukulanji, Chengannur",
       "phone": "+91-98950-10009",
       "email": "jithin@example.org",
-      "branch": "Unit 9"
+      "branch": "SNDP Chathenkery"
     },
     "loan": {
       "amount_borrowed": 52000,
@@ -189,10 +189,10 @@
     "role": "user",
     "profile": {
       "name": "Reshma Rajesh",
-      "address": "Mayyanad, Kollam",
+      "address": "Puliyoor, Alappuzha",
       "phone": "+91-98950-10010",
       "email": "reshma@example.org",
-      "branch": "Unit 9"
+      "branch": "SNDP Chathenkery"
     },
     "loan": {
       "amount_borrowed": 22000,
