@@ -136,6 +136,7 @@ body[data-theme="dark"] .fact-list li{background:rgba(255,255,255,.06);box-shado
 .table-wrap{overflow:auto;border-radius:18px;}
 
 
+
 @media (max-width:980px){
   .hero-inner{grid-template-columns:1fr;}
   .nav{justify-content:flex-start;}
@@ -145,6 +146,7 @@ body[data-theme="dark"] .fact-list li{background:rgba(255,255,255,.06);box-shado
   .topbar{flex-direction:column;align-items:flex-start;}
   .cta{width:100%;}
   .btn{width:100%;text-align:center;}
+
 
 
 }

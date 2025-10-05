@@ -11,7 +11,15 @@ export const refreshAuthUI = ()=>{
   if(s){
     if(loginBtn) loginBtn.style.display="none";
     if(userPanel) userPanel.style.display="flex";
-    if(hello) hello.textContent = s.role === "manager" ? "Manager" : (s.profile?.name || s.username);
+    if(hello){
+      let label = s.username;
+      if(s.role === "manager"){
+        label = "Manager";
+      } else if(s.profile && s.profile.name){
+        label = s.profile.name;
+      }
+      hello.textContent = label;
+    }
   } else {
     if(loginBtn) loginBtn.style.display="inline-block";
     if(userPanel) userPanel.style.display="none";

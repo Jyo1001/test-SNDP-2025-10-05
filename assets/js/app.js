@@ -75,7 +75,7 @@ async function bootstrap(){
 
   renderStaticContent(CONTENT, DATA.events);
   renderHome(DATA.site);
-
+  renderSectionIntros(DATA.site);
   renderReferences(DATA.site);
   searchBlocks = Array.from(document.querySelectorAll("section[data-route], section.hero"));
 
@@ -93,24 +93,54 @@ async function bootstrap(){
     onRoute();
   }
 
+  // Mobile navigation toggle
+  const navToggle = document.getElementById("navToggle");
+  const nav = document.getElementById("primaryNav");
+  if(navToggle && nav){
+    const setNavState = (open) => {
+      document.body.dataset.navOpen = open ? "true" : "false";
+      navToggle.setAttribute("aria-expanded", open ? "true" : "false");
+      navToggle.classList.toggle("is-open", open);
+      const label = navToggle.querySelector(".menu-label");
+      if(label){
+        label.textContent = open ? "Close" : "Menu";
+      }
+    };
+    navToggle.addEventListener("click", ()=>{
+      const open = document.body.dataset.navOpen === "true";
+      setNavState(!open);
+      if(!open){
+        nav.querySelector("a")?.focus();
+      }
+    });
+    nav.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", ()=> setNavState(false));
+    });
+  }
+
   // Search shortcut
   const q = document.getElementById("q");
   const searchToggle = document.getElementById("searchToggle");
   closeSearchPanel();
+
   searchToggle?.addEventListener("click", toggleSearchPanel);
+
   document.addEventListener("keydown", (e)=>{
     if(e.key === "/" && document.activeElement !== q){
       e.preventDefault();
       if(window.innerWidth <= 820){
         openSearchPanel();
       } else {
+
         q?.focus();
+
       }
     }
     if(e.key === "Escape" && document.body.dataset.searchOpen === "true"){
       e.preventDefault();
       closeSearchPanel();
     }
+
   });
   q?.addEventListener("input", ()=>{
     const needle = q.value.trim().toLowerCase();
@@ -122,10 +152,12 @@ async function bootstrap(){
   });
 
   // Theme toggle
+
   document.getElementById("theme")?.addEventListener("click", ()=>{
     const next = document.body.dataset.theme === "dark" ? "light" : "dark";
     document.body.dataset.theme = next;
     store.set("theme", next);
+
 
   });
 
@@ -150,18 +182,25 @@ async function bootstrap(){
     searchBlocks = Array.from(document.querySelectorAll("section[data-route], section.hero"));
   }
   // Bind login
-  document.getElementById("loginForm")?.addEventListener("submit",(e)=>{
-    e.preventDefault();
-    const role = document.querySelector('input[name="role"]:checked').value;
-    const username = document.getElementById("username").value.trim();
-    const password = document.getElementById("password").value;
-    const found = DATA.accounts.find(a => a.username===username && a.password===password && a.role===role);
-    const msg = document.getElementById("loginMsg");
-    if(!found){ msg.textContent = "Invalid credentials"; return; }
-    setSession({username:found.username, role:found.role, profile:found.profile});
-    msg.textContent = "Logged in";
-    setTimeout(()=> location.hash = "#/loans", 300);
-  });
+  const loginForm = document.getElementById("loginForm");
+  if(loginForm){
+    loginForm.addEventListener("submit",(e)=>{
+      e.preventDefault();
+      const roleInput = document.querySelector('input[name="role"]:checked');
+      const usernameInput = document.getElementById("username");
+      const passwordInput = document.getElementById("password");
+      const msg = document.getElementById("loginMsg");
+      if(!roleInput || !usernameInput || !passwordInput || !msg){ return; }
+      const role = roleInput.value;
+      const username = usernameInput.value.trim();
+      const password = passwordInput.value;
+      const found = DATA.accounts.find(a => a.username===username && a.password===password && a.role===role);
+      if(!found){ msg.textContent = "Invalid credentials"; return; }
+      setSession({username:found.username, role:found.role, profile:found.profile});
+      msg.textContent = "Logged in";
+      setTimeout(()=> location.hash = "#/loans", 300);
+    });
+  }
 }
 
 function renderHome(site = {}){
@@ -212,6 +251,48 @@ function renderHome(site = {}){
     insightsEl.style.display = sections.length ? "grid" : "none";
   }
 }
+
+function renderSectionIntros(site = {}){
+  const sections = [
+    ["directoryIntro", site.directoryIntro],
+    ["noticesIntro", site.noticesIntro],
+    ["galleryIntro", site.galleryIntro],
+    ["loansIntro", site.loansIntro]
+  ];
+  sections.forEach(([id, config]) => {
+    const target = document.getElementById(id);
+    if(!target) return;
+    if(!config){
+      target.innerHTML = "";
+      target.style.display = "none";
+      return;
+    }
+    const block = typeof config === "string" ? { paragraphs: [config] } : config;
+    const paragraphs = Array.isArray(block.paragraphs) ? block.paragraphs : [];
+    const list = Array.isArray(block.list) ? block.list : [];
+    let html = `<article class="article">`;
+    if(paragraphs.length){
+      html += paragraphs.map(text => `<p>${safe(text)}</p>`).join("");
+    }
+    if(block.note){
+      html += `<p>${safe(block.note)}</p>`;
+    }
+    if(list.length){
+      html += `<ul class="bullet-list">${list.map(item => `<li>${safe(item)}</li>`).join("")}</ul>`;
+    }
+    if(block.cta && block.cta.href){
+      const external = block.cta.external ? ' target="_blank" rel="noopener"' : "";
+      const variant = block.cta.variant === "alt" ? " btn-alt" : "";
+      html += `<a class="btn${variant}" href="${safe(block.cta.href)}"${external}>${safe(block.cta.label || "Learn more")}</a>`;
+    }
+    html += `</article>`;
+    target.innerHTML = html;
+    target.style.display = "";
+  });
+}
+
+
+
 
 
 
