@@ -1,6 +1,6 @@
-# SNDP Unit 9 — Website (GitHub Pages)
+# SNDP Chathenkery — Website (GitHub Pages)
 
-Clean, Wikipedia‑style site for SNDP Unit 9 with a **Directory**, **Loan Portal**, and **User Detail** pages.  
+Clean, interactive site for SNDP Chathenkery with a **Directory**, **Loan Portal**, and **User Detail** pages.
 This starter splits **HTML/CSS/JS** and moves all demo data to **JSON** so you can update content without touching code.
 
 ## 🌐 Live (GitHub Pages)
@@ -29,7 +29,7 @@ After pushing to `main`, enable Pages in **Settings ▸ Pages**. Use the **root*
 │     └─ directory.js      # directory page (public contact listing)
 ├─ data/
 │  ├─ site.json            # site settings & nav labels
-│  ├─ users.json           # demo users (manager + 10 users, Ezhava names)
+│  ├─ users.json           # demo users (manager + 10 users, Chathenkery addresses)
 │  ├─ events.json          # events
 │  └─ notices.json         # notices
 ├─ schemas/
