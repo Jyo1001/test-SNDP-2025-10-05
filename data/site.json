@@ -51,6 +51,8 @@
     }
   ],
 
+
+
   "referencesIntro": "Curated references grounding our Chathenkery profile and community projects.",
   "references": [
     {
@@ -62,6 +64,7 @@
       "label": "SNDP Yogam official site",
       "href": "https://www.sndpyogam.org/",
       "note": "Statewide programmes and institutional network."
+
 
     }
   ]
