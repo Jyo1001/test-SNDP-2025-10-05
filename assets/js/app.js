@@ -76,6 +76,7 @@ async function bootstrap(){
   renderStaticContent(CONTENT, DATA.events);
   renderHome(DATA.site);
   renderSectionIntros(DATA.site);
+  renderGallery(DATA.site);
   renderReferences(DATA.site);
   searchBlocks = Array.from(document.querySelectorAll("section[data-route], section.hero"));
 
@@ -295,6 +296,21 @@ function renderSectionIntros(site = {}){
 
 
 
+
+function renderGallery(site = {}){
+  const grid = document.getElementById("galleryGrid");
+  if(grid){
+    const items = Array.isArray(site.gallery) ? site.gallery : [];
+    grid.innerHTML = items.map(item => `
+      <article class="gallery-card">
+        ${item.eyebrow ? `<span class="eyebrow">${safe(item.eyebrow)}</span>` : ""}
+        <h3>${safe(item.title)}</h3>
+        ${item.body ? `<p>${safe(item.body)}</p>` : ""}
+        ${item.link ? `<a href="${safe(item.link.href)}"${item.link.external ? ' target="_blank" rel="noopener"' : ""}>${safe(item.link.label || "View details")}</a>` : ""}
+      </article>`).join("");
+    grid.style.display = items.length ? "grid" : "none";
+  }
+}
 
 function renderReferences(site = {}){
   const list = document.getElementById("referencesList");
