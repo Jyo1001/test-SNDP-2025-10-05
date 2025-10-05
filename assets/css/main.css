@@ -118,7 +118,7 @@ body[data-theme="dark"] .table th, body[data-theme="dark"] .table td{background:
 body[data-theme="dark"] .table thead th{background:rgba(255,255,255,.08);}
 .article{display:flex;flex-direction:column;gap:16px;padding:22px;border-radius:var(--radius);background:var(--tile-bg);border:1px solid var(--border);box-shadow:0 12px 24px rgba(209,153,18,.16);}
 .article p{margin:0;line-height:1.7;color:var(--text);}
-.article .btn{align-self:flex-start;}
+
 .fact-list{list-style:none;margin:0;padding:0;display:grid;gap:10px;}
 .fact-list li{padding:12px;border-radius:12px;background:rgba(255,255,255,.85);border:1px solid var(--border);color:var(--text);box-shadow:0 6px 12px rgba(209,153,18,.16);}
 .fact-list li strong{display:block;color:var(--link);font-size:13px;margin-bottom:2px;}

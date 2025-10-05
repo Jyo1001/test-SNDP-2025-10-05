@@ -30,8 +30,7 @@ async function bootstrap(){
 
   renderStaticContent(CONTENT, DATA.events);
   renderHome(DATA.site);
-  renderSectionIntros(DATA.site);
-  renderGallery(DATA.site);
+
   renderReferences(DATA.site);
   searchBlocks = Array.from(document.querySelectorAll("section[data-route], section.hero"));
 
@@ -152,59 +151,6 @@ function renderHome(site = {}){
   }
 }
 
-function renderSectionIntros(site = {}){
-  const sections = [
-    ["directoryIntro", site.directoryIntro],
-    ["noticesIntro", site.noticesIntro],
-    ["galleryIntro", site.galleryIntro],
-    ["loansIntro", site.loansIntro]
-  ];
-  sections.forEach(([id, config]) => {
-    const target = document.getElementById(id);
-    if(!target) return;
-    if(!config){
-      target.innerHTML = "";
-      target.style.display = "none";
-      return;
-    }
-    const block = typeof config === "string" ? { paragraphs: [config] } : config;
-    const paragraphs = Array.isArray(block.paragraphs) ? block.paragraphs : [];
-    const list = Array.isArray(block.list) ? block.list : [];
-    let html = `<article class="article">`;
-    if(paragraphs.length){
-      html += paragraphs.map(text => `<p>${safe(text)}</p>`).join("");
-    }
-    if(block.note){
-      html += `<p>${safe(block.note)}</p>`;
-    }
-    if(list.length){
-      html += `<ul class="bullet-list">${list.map(item => `<li>${safe(item)}</li>`).join("")}</ul>`;
-    }
-    if(block.cta && block.cta.href){
-      const external = block.cta.external ? ' target="_blank" rel="noopener"' : "";
-      const variant = block.cta.variant === "alt" ? " btn-alt" : "";
-      html += `<a class="btn${variant}" href="${safe(block.cta.href)}"${external}>${safe(block.cta.label || "Learn more")}</a>`;
-    }
-    html += `</article>`;
-    target.innerHTML = html;
-    target.style.display = "";
-  });
-}
-
-function renderGallery(site = {}){
-  const grid = document.getElementById("galleryGrid");
-  if(grid){
-    const items = Array.isArray(site.gallery) ? site.gallery : [];
-    grid.innerHTML = items.map(item => `
-      <article class="gallery-card">
-        ${item.eyebrow ? `<span class="eyebrow">${safe(item.eyebrow)}</span>` : ""}
-        <h3>${safe(item.title)}</h3>
-        ${item.body ? `<p>${safe(item.body)}</p>` : ""}
-        ${item.link ? `<a href="${safe(item.link.href)}"${item.link.external ? ' target=\"_blank\" rel=\"noopener\"' : ""}>${safe(item.link.label || "View details")}</a>` : ""}
-      </article>`).join("");
-    grid.style.display = items.length ? "grid" : "none";
-  }
-}
 
 function renderReferences(site = {}){
   const list = document.getElementById("referencesList");
