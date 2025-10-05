@@ -75,7 +75,7 @@ async function bootstrap(){
 
   renderStaticContent(CONTENT, DATA.events);
   renderHome(DATA.site);
-
+  renderSectionIntros(DATA.site);
   renderReferences(DATA.site);
   searchBlocks = Array.from(document.querySelectorAll("section[data-route], section.hero"));
 
@@ -124,18 +124,7 @@ async function bootstrap(){
       const text = b.textContent.toLowerCase();
       b.style.outline = text.includes(needle) ? "2px solid rgba(130,200,255,.45)" : "none";
     });
-
   });
-  if(q){
-    q.addEventListener("input", ()=>{
-      const needle = q.value.trim().toLowerCase();
-      if(!needle){ searchBlocks.forEach(b=> b.style.outline="none"); return; }
-      searchBlocks.forEach(b=>{
-        const text = b.textContent.toLowerCase();
-        b.style.outline = text.includes(needle) ? "2px solid rgba(130,200,255,.45)" : "none";
-      });
-    });
-  }
 
   // Theme toggle
 
@@ -278,54 +267,6 @@ function renderSectionIntros(site = {}){
 }
 
 
-function renderHome(site = {}){
-  const title = site.title || "SNDP Chathenkery";
-  document.title = site.pageTitle || `${title} — Community Hub`;
-  const metaDesc = document.querySelector('meta[name="description"]');
-  if(metaDesc && site.description){
-    metaDesc.setAttribute("content", site.description);
-  }
-  const brandLabel = document.querySelector(".brand span");
-  if(brandLabel) brandLabel.textContent = title;
-  const heroHeading = document.querySelector(".hero-copy h1");
-  if(heroHeading) heroHeading.textContent = `Welcome to ${title}`;
-  const mottoEl = document.getElementById("siteMotto");
-  if(mottoEl && site.motto){ mottoEl.textContent = site.motto; }
-  const chipsEl = document.getElementById("homeChips");
-  if(chipsEl && Array.isArray(site.chips) && site.chips.length){
-    chipsEl.innerHTML = site.chips.map(text => `<span class="chip">${safe(text)}</span>`).join("");
-  }
-  const statsEl = document.getElementById("homeStats");
-  if(statsEl && Array.isArray(site.stats)){
-    statsEl.innerHTML = site.stats.map((stat) => `
-      <div class="tile">
-        <div class="sub">${safe(stat.label)}</div>
-        <div class="big">${safe(stat.value)}</div>
-        ${stat.note ? `<p>${safe(stat.note)}</p>` : ""}
-      </div>`).join("");
-  }
-  const highlightsEl = document.getElementById("homeOverview");
-  if(highlightsEl){
-    const highlights = Array.isArray(site.highlights) ? site.highlights : [];
-    highlightsEl.innerHTML = highlights.map((item) => `
-      <article class="highlight-card">
-        <h3>${safe(item.title)}</h3>
-        <p>${safe(item.body)}</p>
-        ${item.link ? `<a href="${safe(item.link.href)}"${item.link.external ? " target=\"_blank\" rel=\"noopener\"" : ""}>${safe(item.link.label || "Learn more")}</a>` : ""}
-      </article>`).join("");
-    highlightsEl.style.display = highlights.length ? "grid" : "none";
-  }
-  const insightsEl = document.getElementById("homeInsights");
-  if(insightsEl){
-    const sections = Array.isArray(site.insights) ? site.insights : [];
-    insightsEl.innerHTML = sections.map((section) => `
-      <div class="insight-card">
-        <h3>${safe(section.title)}</h3>
-        <ul>${(section.items || []).map((item) => `<li>${safe(item)}</li>`).join("")}</ul>
-      </div>`).join("");
-    insightsEl.style.display = sections.length ? "grid" : "none";
-  }
-}
 
 
 
