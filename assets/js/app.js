@@ -30,6 +30,7 @@ async function bootstrap(){
 
   renderStaticContent(CONTENT, DATA.events);
   renderHome(DATA.site);
+
   renderReferences(DATA.site);
   searchBlocks = Array.from(document.querySelectorAll("section[data-route], section.hero"));
 
@@ -149,6 +150,7 @@ function renderHome(site = {}){
     insightsEl.style.display = sections.length ? "grid" : "none";
   }
 }
+
 
 function renderReferences(site = {}){
   const list = document.getElementById("referencesList");
