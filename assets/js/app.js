@@ -8,6 +8,50 @@ import { CONTENT, renderStaticContent } from "./content.js";
 let DATA = { accounts: [], events: [], notices: [], site: {} };
 let searchBlocks = [];
 
+function openSearchPanel(){
+  document.body.dataset.searchOpen = "true";
+  const toggle = document.getElementById("searchToggle");
+  if(toggle){
+    toggle.setAttribute("aria-expanded", "true");
+    const text = toggle.querySelector(".search-text");
+    if(text && window.innerWidth <= 820){
+      text.textContent = "Close";
+    }
+  }
+  const q = document.getElementById("q");
+  if(q){
+    if(window.innerWidth <= 820){
+      setTimeout(()=> q.focus(), 50);
+    } else {
+      q.focus();
+    }
+  }
+}
+
+function closeSearchPanel(){
+  document.body.dataset.searchOpen = "false";
+  const toggle = document.getElementById("searchToggle");
+  if(toggle){
+    toggle.setAttribute("aria-expanded", "false");
+    const text = toggle.querySelector(".search-text");
+    if(text){
+      text.textContent = "Search";
+    }
+  }
+  const q = document.getElementById("q");
+  if(q && document.activeElement === q){
+    q.blur();
+  }
+}
+
+function toggleSearchPanel(){
+  if(document.body.dataset.searchOpen === "true"){
+    closeSearchPanel();
+  } else {
+    openSearchPanel();
+  }
+}
+
 async function bootstrap(){
   // Load data in parallel
   const [users, events, notices, site] = await Promise.all([
@@ -51,7 +95,23 @@ async function bootstrap(){
 
   // Search shortcut
   const q = document.getElementById("q");
-  document.addEventListener("keydown", (e)=>{ if(e.key === "/" && document.activeElement !== q){ e.preventDefault(); q.focus(); }});
+  const searchToggle = document.getElementById("searchToggle");
+  closeSearchPanel();
+  searchToggle?.addEventListener("click", toggleSearchPanel);
+  document.addEventListener("keydown", (e)=>{
+    if(e.key === "/" && document.activeElement !== q){
+      e.preventDefault();
+      if(window.innerWidth <= 820){
+        openSearchPanel();
+      } else {
+        q?.focus();
+      }
+    }
+    if(e.key === "Escape" && document.body.dataset.searchOpen === "true"){
+      e.preventDefault();
+      closeSearchPanel();
+    }
+  });
   q?.addEventListener("input", ()=>{
     const needle = q.value.trim().toLowerCase();
     if(!needle){ searchBlocks.forEach(b=> b.style.outline="none"); return; }
@@ -176,6 +236,7 @@ function renderReferences(site = {}){
 
 function onRoute(){
   renderRoute();
+  closeSearchPanel();
   const { root, param } = currentRoute();
   if(root === "directory") renderDirectory(DATA.accounts);
   if(root === "loans"){
