@@ -7,7 +7,7 @@
   <meta name="description" content="SNDP Chathenkery community hub — interactive portal for Chengannur's riverfront ward with SNDP Yogam history, programmes, and member tools."/>
   <link rel="stylesheet" href="assets/css/main.css" />
 </head>
-<body>
+<body data-nav-open="false" data-search-open="false">
   <header class="topbar">
     <a href="#/home" class="brand">
       <div class="logo">SN</div>
@@ -32,6 +32,10 @@
       <a href="#/references">References</a>
     </nav>
     <div class="tools">
+      <button id="searchToggle" class="btn search-toggle" type="button" aria-expanded="false" aria-controls="q" title="Search pages">
+        <span class="search-icon" aria-hidden="true"></span>
+        <span class="search-text">Search</span>
+      </button>
       <label class="search">
         <input id="q" placeholder="Search pages... ( / )" />
       </label>
