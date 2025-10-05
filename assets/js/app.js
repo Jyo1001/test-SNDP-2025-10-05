@@ -25,6 +25,7 @@ async function bootstrap(){
   const storedTheme = store.get("theme");
   const initialTheme = storedTheme || DATA.site.theme || "light";
   document.body.dataset.theme = initialTheme;
+
   refreshAuthUI();
   bindAuthButtons();
 
@@ -65,6 +66,7 @@ async function bootstrap(){
     const next = document.body.dataset.theme === "dark" ? "light" : "dark";
     document.body.dataset.theme = next;
     store.set("theme", next);
+
   });
 
   // Simple login page inside SPA
@@ -152,6 +154,7 @@ function renderHome(site = {}){
 }
 
 
+
 function renderReferences(site = {}){
   const list = document.getElementById("referencesList");
   if(list){
@@ -182,6 +185,14 @@ function onRoute(){
   if(root === "user"){
     if(!getSession()){ location.hash = "#/login"; return; }
     renderUserDetail(DATA.accounts, param);
+  }
+  const navToggle = document.getElementById("navToggle");
+  if(navToggle){
+    document.body.dataset.navOpen = "false";
+    navToggle.setAttribute("aria-expanded", "false");
+    navToggle.classList.remove("is-open");
+    const label = navToggle.querySelector(".menu-label");
+    if(label) label.textContent = "Menu";
   }
 }
 
