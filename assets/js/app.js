@@ -1,5 +1,5 @@
 import { loadJSON, store, safe } from "./util.js";
-import { renderRoute, currentRoute } from "./router.js";
+import { renderRoute, currentRoute, normalizeRoute, isValidRoute } from "./router.js";
 import { bindAuthButtons, refreshAuthUI, setSession, getSession } from "./auth.js";
 import { renderLoans, renderUserDetail } from "./loans.js";
 import { renderDirectory } from "./directory.js";
@@ -7,6 +7,7 @@ import { CONTENT, renderStaticContent } from "./content.js";
 
 let DATA = { accounts: [], events: [], notices: [], site: {} };
 let searchBlocks = [];
+const SUPPORTED_THEMES = new Set(["sunrise", "dark"]);
 
 function openSearchPanel(){
   document.body.dataset.searchOpen = "true";
@@ -67,7 +68,10 @@ async function bootstrap(){
 
   document.getElementById("year").textContent = new Date().getFullYear();
   const storedTheme = store.get("theme");
-  const initialTheme = storedTheme || DATA.site.theme || "light";
+  const siteTheme = DATA.site.theme;
+  const initialTheme = SUPPORTED_THEMES.has(storedTheme)
+    ? storedTheme
+    : (SUPPORTED_THEMES.has(siteTheme) ? siteTheme : "sunrise");
   document.body.dataset.theme = initialTheme;
 
   refreshAuthUI();
@@ -88,11 +92,15 @@ async function bootstrap(){
   // Routing
   window.addEventListener("hashchange", onRoute);
   const last = store.get("lastRoute");
-  if(!location.hash || !location.hash.startsWith("#/")){
-    location.hash = "#/" + (last || "home");
-  } else {
-    onRoute();
+  const fallbackRoute = normalizeRoute(isValidRoute(last) ? last : "");
+  const rawHash = location.hash.startsWith("#/") ? location.hash.slice(2) : "";
+  const normalizedHash = normalizeRoute(rawHash);
+  const target = rawHash ? normalizedHash : (fallbackRoute || "home");
+  const targetHash = "#/" + target;
+  if(location.hash !== targetHash){
+    location.replace(targetHash);
   }
+  onRoute();
 
   // Mobile navigation toggle
   const navToggle = document.getElementById("navToggle");
@@ -155,11 +163,10 @@ async function bootstrap(){
   // Theme toggle
 
   document.getElementById("theme")?.addEventListener("click", ()=>{
-    const next = document.body.dataset.theme === "dark" ? "light" : "dark";
+    const current = document.body.dataset.theme === "dark" ? "dark" : "sunrise";
+    const next = current === "dark" ? "sunrise" : "dark";
     document.body.dataset.theme = next;
     store.set("theme", next);
-
-
   });
 
   // Simple login page inside SPA
@@ -332,9 +339,15 @@ function renderReferences(site = {}){
 }
 
 function onRoute(){
+  const { root, param } = currentRoute();
+  const normalized = (root === "user" && param) ? `user/${param}` : root;
+  const expectedHash = "#/" + normalized;
+  if(location.hash !== expectedHash){
+    location.replace(expectedHash);
+    return;
+  }
   renderRoute();
   closeSearchPanel();
-  const { root, param } = currentRoute();
   if(root === "directory") renderDirectory(DATA.accounts);
   if(root === "loans"){
     if(!getSession()){ location.hash = "#/login"; return; }
