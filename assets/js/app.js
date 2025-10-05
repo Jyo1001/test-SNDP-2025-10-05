@@ -8,6 +8,50 @@ import { CONTENT, renderStaticContent } from "./content.js";
 let DATA = { accounts: [], events: [], notices: [], site: {} };
 let searchBlocks = [];
 
+function openSearchPanel(){
+  document.body.dataset.searchOpen = "true";
+  const toggle = document.getElementById("searchToggle");
+  if(toggle){
+    toggle.setAttribute("aria-expanded", "true");
+    const text = toggle.querySelector(".search-text");
+    if(text && window.innerWidth <= 820){
+      text.textContent = "Close";
+    }
+  }
+  const q = document.getElementById("q");
+  if(q){
+    if(window.innerWidth <= 820){
+      setTimeout(()=> q.focus(), 50);
+    } else {
+      q.focus();
+    }
+  }
+}
+
+function closeSearchPanel(){
+  document.body.dataset.searchOpen = "false";
+  const toggle = document.getElementById("searchToggle");
+  if(toggle){
+    toggle.setAttribute("aria-expanded", "false");
+    const text = toggle.querySelector(".search-text");
+    if(text){
+      text.textContent = "Search";
+    }
+  }
+  const q = document.getElementById("q");
+  if(q && document.activeElement === q){
+    q.blur();
+  }
+}
+
+function toggleSearchPanel(){
+  if(document.body.dataset.searchOpen === "true"){
+    closeSearchPanel();
+  } else {
+    openSearchPanel();
+  }
+}
+
 async function bootstrap(){
   // Load data in parallel
   const [users, events, notices, site] = await Promise.all([
@@ -25,11 +69,14 @@ async function bootstrap(){
   const storedTheme = store.get("theme");
   const initialTheme = storedTheme || DATA.site.theme || "light";
   document.body.dataset.theme = initialTheme;
+
   refreshAuthUI();
   bindAuthButtons();
 
   renderStaticContent(CONTENT, DATA.events);
   renderHome(DATA.site);
+  renderSectionIntros(DATA.site);
+  renderGallery(DATA.site);
   renderReferences(DATA.site);
   searchBlocks = Array.from(document.querySelectorAll("section[data-route], section.hero"));
 
@@ -47,9 +94,55 @@ async function bootstrap(){
     onRoute();
   }
 
+  // Mobile navigation toggle
+  const navToggle = document.getElementById("navToggle");
+  const nav = document.getElementById("primaryNav");
+  if(navToggle && nav){
+    const setNavState = (open) => {
+      document.body.dataset.navOpen = open ? "true" : "false";
+      navToggle.setAttribute("aria-expanded", open ? "true" : "false");
+      navToggle.classList.toggle("is-open", open);
+      const label = navToggle.querySelector(".menu-label");
+      if(label){
+        label.textContent = open ? "Close" : "Menu";
+      }
+    };
+    navToggle.addEventListener("click", ()=>{
+      const open = document.body.dataset.navOpen === "true";
+      setNavState(!open);
+      if(!open){
+        nav.querySelector("a")?.focus();
+      }
+    });
+    nav.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", ()=> setNavState(false));
+    });
+  }
+
   // Search shortcut
   const q = document.getElementById("q");
-  document.addEventListener("keydown", (e)=>{ if(e.key === "/" && document.activeElement !== q){ e.preventDefault(); q.focus(); }});
+  const searchToggle = document.getElementById("searchToggle");
+  closeSearchPanel();
+
+  searchToggle?.addEventListener("click", toggleSearchPanel);
+
+  document.addEventListener("keydown", (e)=>{
+    if(e.key === "/" && document.activeElement !== q){
+      e.preventDefault();
+      if(window.innerWidth <= 820){
+        openSearchPanel();
+      } else {
+
+        q?.focus();
+
+      }
+    }
+    if(e.key === "Escape" && document.body.dataset.searchOpen === "true"){
+      e.preventDefault();
+      closeSearchPanel();
+    }
+
+  });
   q?.addEventListener("input", ()=>{
     const needle = q.value.trim().toLowerCase();
     if(!needle){ searchBlocks.forEach(b=> b.style.outline="none"); return; }
@@ -60,10 +153,13 @@ async function bootstrap(){
   });
 
   // Theme toggle
+
   document.getElementById("theme")?.addEventListener("click", ()=>{
     const next = document.body.dataset.theme === "dark" ? "light" : "dark";
     document.body.dataset.theme = next;
     store.set("theme", next);
+
+
   });
 
   // Simple login page inside SPA
@@ -87,18 +183,25 @@ async function bootstrap(){
     searchBlocks = Array.from(document.querySelectorAll("section[data-route], section.hero"));
   }
   // Bind login
-  document.getElementById("loginForm")?.addEventListener("submit",(e)=>{
-    e.preventDefault();
-    const role = document.querySelector('input[name="role"]:checked').value;
-    const username = document.getElementById("username").value.trim();
-    const password = document.getElementById("password").value;
-    const found = DATA.accounts.find(a => a.username===username && a.password===password && a.role===role);
-    const msg = document.getElementById("loginMsg");
-    if(!found){ msg.textContent = "Invalid credentials"; return; }
-    setSession({username:found.username, role:found.role, profile:found.profile});
-    msg.textContent = "Logged in";
-    setTimeout(()=> location.hash = "#/loans", 300);
-  });
+  const loginForm = document.getElementById("loginForm");
+  if(loginForm){
+    loginForm.addEventListener("submit",(e)=>{
+      e.preventDefault();
+      const roleInput = document.querySelector('input[name="role"]:checked');
+      const usernameInput = document.getElementById("username");
+      const passwordInput = document.getElementById("password");
+      const msg = document.getElementById("loginMsg");
+      if(!roleInput || !usernameInput || !passwordInput || !msg){ return; }
+      const role = roleInput.value;
+      const username = usernameInput.value.trim();
+      const password = passwordInput.value;
+      const found = DATA.accounts.find(a => a.username===username && a.password===password && a.role===role);
+      if(!found){ msg.textContent = "Invalid credentials"; return; }
+      setSession({username:found.username, role:found.role, profile:found.profile});
+      msg.textContent = "Logged in";
+      setTimeout(()=> location.hash = "#/loans", 300);
+    });
+  }
 }
 
 function renderHome(site = {}){
@@ -150,6 +253,65 @@ function renderHome(site = {}){
   }
 }
 
+function renderSectionIntros(site = {}){
+  const sections = [
+    ["directoryIntro", site.directoryIntro],
+    ["noticesIntro", site.noticesIntro],
+    ["galleryIntro", site.galleryIntro],
+    ["loansIntro", site.loansIntro]
+  ];
+  sections.forEach(([id, config]) => {
+    const target = document.getElementById(id);
+    if(!target) return;
+    if(!config){
+      target.innerHTML = "";
+      target.style.display = "none";
+      return;
+    }
+    const block = typeof config === "string" ? { paragraphs: [config] } : config;
+    const paragraphs = Array.isArray(block.paragraphs) ? block.paragraphs : [];
+    const list = Array.isArray(block.list) ? block.list : [];
+    let html = `<article class="article">`;
+    if(paragraphs.length){
+      html += paragraphs.map(text => `<p>${safe(text)}</p>`).join("");
+    }
+    if(block.note){
+      html += `<p>${safe(block.note)}</p>`;
+    }
+    if(list.length){
+      html += `<ul class="bullet-list">${list.map(item => `<li>${safe(item)}</li>`).join("")}</ul>`;
+    }
+    if(block.cta && block.cta.href){
+      const external = block.cta.external ? ' target="_blank" rel="noopener"' : "";
+      const variant = block.cta.variant === "alt" ? " btn-alt" : "";
+      html += `<a class="btn${variant}" href="${safe(block.cta.href)}"${external}>${safe(block.cta.label || "Learn more")}</a>`;
+    }
+    html += `</article>`;
+    target.innerHTML = html;
+    target.style.display = "";
+  });
+}
+
+
+
+
+
+
+function renderGallery(site = {}){
+  const grid = document.getElementById("galleryGrid");
+  if(grid){
+    const items = Array.isArray(site.gallery) ? site.gallery : [];
+    grid.innerHTML = items.map(item => `
+      <article class="gallery-card">
+        ${item.eyebrow ? `<span class="eyebrow">${safe(item.eyebrow)}</span>` : ""}
+        <h3>${safe(item.title)}</h3>
+        ${item.body ? `<p>${safe(item.body)}</p>` : ""}
+        ${item.link ? `<a href="${safe(item.link.href)}"${item.link.external ? ' target="_blank" rel="noopener"' : ""}>${safe(item.link.label || "View details")}</a>` : ""}
+      </article>`).join("");
+    grid.style.display = items.length ? "grid" : "none";
+  }
+}
+
 function renderReferences(site = {}){
   const list = document.getElementById("referencesList");
   if(list){
@@ -171,6 +333,7 @@ function renderReferences(site = {}){
 
 function onRoute(){
   renderRoute();
+  closeSearchPanel();
   const { root, param } = currentRoute();
   if(root === "directory") renderDirectory(DATA.accounts);
   if(root === "loans"){
@@ -180,6 +343,14 @@ function onRoute(){
   if(root === "user"){
     if(!getSession()){ location.hash = "#/login"; return; }
     renderUserDetail(DATA.accounts, param);
+  }
+  const navToggle = document.getElementById("navToggle");
+  if(navToggle){
+    document.body.dataset.navOpen = "false";
+    navToggle.setAttribute("aria-expanded", "false");
+    navToggle.classList.remove("is-open");
+    const label = navToggle.querySelector(".menu-label");
+    if(label) label.textContent = "Menu";
   }
 }
 

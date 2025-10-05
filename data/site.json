@@ -50,6 +50,82 @@
       ]
     }
   ],
+  "directoryIntro": {
+    "paragraphs": [
+      "Our directory keeps Chathenkery’s volunteer leads, youth convenors, and women’s wing accessible for pilgrim care and welfare programmes.",
+      "Reach out to coordinate river watch shifts, tuition pods, or municipal escalations across Chengannur’s riverbank wards."
+    ],
+    "list": [
+      "Pilgrim transit desks: duty rosters for Mahadeva Temple and railway station help centres.",
+      "Community welfare: scholarship mentoring, senior-care visits, and microfinance facilitation contacts."
+    ],
+    "cta": {
+      "label": "Email the ward secretary",
+      "href": "mailto:hello@sndpchathenkery.example.org"
+    }
+  },
+  "noticesIntro": {
+    "paragraphs": [
+      "Ward notices highlight pilgrim season briefings, flood-readiness drills, and community library timings so residents can plan ahead."
+    ],
+    "list": [
+      "Follow the November orientation to receive Sabarimala volunteer ID badges.",
+      "Join the October river siren test covering Chathenkery and neighbouring wards."
+    ]
+  },
+  "galleryIntro": {
+    "paragraphs": [
+      "Scenes from Chathenkery’s pilgrim gateways, Pamba stewardship drives, and learning pods capture the ward’s yellow-hued identity."
+    ]
+  },
+  "gallery": [
+    {
+      "eyebrow": "Pilgrim transit",
+      "title": "Chengannur Mahadeva Temple transit hub",
+      "body": "Volunteers guide Sabarimala-bound devotees at the Mahadeva Temple junction with route maps, rest points, and first-aid.",
+      "link": {
+        "label": "Transit help desk guide",
+        "href": "https://en.wikipedia.org/wiki/Chengannur_Mahadeva_Temple",
+        "external": true
+      }
+    },
+    {
+      "eyebrow": "River stewardship",
+      "title": "Pamba river clean-up corridors",
+      "body": "Youth teams pair shoreline clean-ups with water sampling to support the Pamba rejuvenation mission around Chengannur.",
+      "link": {
+        "label": "Kerala water mission update",
+        "href": "https://www.thehindu.com/news/national/kerala/pampa-rejuvenation-mission-begins/article24582896.ece",
+        "external": true
+      }
+    },
+    {
+      "eyebrow": "Community learning",
+      "title": "SNDP reading room and digital lab",
+      "body": "Study circles meet at the ward’s SNDP hall, blending Guru’s teachings with digital literacy modules for students and entrepreneurs.",
+      "link": {
+        "label": "Sree Narayana Guru teachings",
+        "href": "https://en.wikipedia.org/wiki/Sree_Narayana_Guru",
+        "external": true
+      }
+    }
+  ],
+  "loansIntro": {
+    "paragraphs": [
+      "The SNDP Chathenkery cooperative credit wing advances microloans that fund home repairs, education, and small enterprises across the ward.",
+      "Members can log in to review balances, repayment schedules, and the latest statements without leaving the neighbourhood office."
+    ],
+    "list": [
+      "Ward manager dashboard tracks balances, contact history, and overdue nudges.",
+      "User view summarises principal, interest, and closing balance month by month.",
+      "Download-ready data supports audits for Chengannur Municipality tie-ups."
+    ],
+    "cta": {
+      "label": "View cooperative policies",
+      "href": "#/notices",
+      "variant": "alt"
+    }
+  },
   "referencesIntro": "Curated references grounding our Chathenkery profile and community projects.",
   "references": [
     {
@@ -61,6 +137,16 @@
       "label": "SNDP Yogam official site",
       "href": "https://www.sndpyogam.org/",
       "note": "Statewide programmes and institutional network."
+    },
+    {
+      "label": "Chengannur Mahadeva Temple — Wikipedia",
+      "href": "https://en.wikipedia.org/wiki/Chengannur_Mahadeva_Temple",
+      "note": "Pilgrim gateway context anchoring transit services in Chathenkery."
+    },
+    {
+      "label": "Pamba rejuvenation mission begins — The Hindu",
+      "href": "https://www.thehindu.com/news/national/kerala/pampa-rejuvenation-mission-begins/article24582896.ece",
+      "note": "State-led river restoration efforts that our ward clean-ups support."
     }
   ]
 }

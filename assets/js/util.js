@@ -3,7 +3,7 @@ export const money = (n) => {
   try { return new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 }).format(n); }
   catch { return "₹" + Number(n || 0).toLocaleString("en-IN"); }
 };
-export const safe = (s="") => s.toString().replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+export const safe = (s="") => s.toString().replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[c]));
 export const loadJSON = async (path) => {
   const res = await fetch(path, { cache: "no-store" });
   if (!res.ok) throw new Error("Failed to load " + path);
