@@ -367,7 +367,10 @@ function onRoute(){
   }
 }
 
-bootstrap().catch(err => {
+const ready = bootstrap();
+ready.catch(err => {
   console.error(err);
   document.body.insertAdjacentHTML("beforeend", `<pre style="color:#fff;background:#900;padding:10px">${err}</pre>`);
 });
+
+export const appReady = ready;
